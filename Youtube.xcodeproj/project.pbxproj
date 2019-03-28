@@ -8,20 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		239B8DC3224BBA9A00914367 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B8DC2224BBA9A00914367 /* AppDelegate.swift */; };
-		239B8DC5224BBA9A00914367 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B8DC4224BBA9A00914367 /* ViewController.swift */; };
+		239B8DC5224BBA9A00914367 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 239B8DC4224BBA9A00914367 /* HomeController.swift */; };
 		239B8DC8224BBA9A00914367 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 239B8DC6224BBA9A00914367 /* Main.storyboard */; };
 		239B8DCA224BBA9C00914367 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 239B8DC9224BBA9C00914367 /* Assets.xcassets */; };
 		239B8DCD224BBA9C00914367 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 239B8DCB224BBA9C00914367 /* LaunchScreen.storyboard */; };
+		23F3E9C8224D3116005CBF51 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F3E9C7224D3116005CBF51 /* Extensions.swift */; };
+		23F3E9CB224D3186005CBF51 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F3E9CA224D3186005CBF51 /* VideoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		239B8DBF224BBA9A00914367 /* Youtube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Youtube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		239B8DC2224BBA9A00914367 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		239B8DC4224BBA9A00914367 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		239B8DC4224BBA9A00914367 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		239B8DC7224BBA9A00914367 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		239B8DC9224BBA9C00914367 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		239B8DCC224BBA9C00914367 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		239B8DCE224BBA9C00914367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23F3E9C7224D3116005CBF51 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		23F3E9CA224D3186005CBF51 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +58,40 @@
 		239B8DC1224BBA9A00914367 /* Youtube */ = {
 			isa = PBXGroup;
 			children = (
+				23F3E9C9224D316D005CBF51 /* View */,
+				23F3E9CC224D31F3005CBF51 /* Controller */,
+				23F3E9C6224D30FE005CBF51 /* Helpers */,
 				239B8DC2224BBA9A00914367 /* AppDelegate.swift */,
-				239B8DC4224BBA9A00914367 /* ViewController.swift */,
 				239B8DC6224BBA9A00914367 /* Main.storyboard */,
 				239B8DC9224BBA9C00914367 /* Assets.xcassets */,
 				239B8DCB224BBA9C00914367 /* LaunchScreen.storyboard */,
 				239B8DCE224BBA9C00914367 /* Info.plist */,
 			);
 			path = Youtube;
+			sourceTree = "<group>";
+		};
+		23F3E9C6224D30FE005CBF51 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				23F3E9C7224D3116005CBF51 /* Extensions.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		23F3E9C9224D316D005CBF51 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23F3E9CA224D3186005CBF51 /* VideoCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		23F3E9CC224D31F3005CBF51 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				239B8DC4224BBA9A00914367 /* HomeController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +165,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				239B8DC5224BBA9A00914367 /* ViewController.swift in Sources */,
+				239B8DC5224BBA9A00914367 /* HomeController.swift in Sources */,
+				23F3E9CB224D3186005CBF51 /* VideoCell.swift in Sources */,
+				23F3E9C8224D3116005CBF51 /* Extensions.swift in Sources */,
 				239B8DC3224BBA9A00914367 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

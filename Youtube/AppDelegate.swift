@@ -21,10 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let layout = UICollectionViewFlowLayout()
         window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout : layout))
+        UINavigationBar.appearance().barTintColor = UIColor(red: 230/255, green: 32/255, blue: 31/255, alpha: 1)
         
+        application.statusBarStyle = .lightContent
+        
+//        let statusBarBackgroundView : UIView = {
+//            let view = UIView()
+//            view.backgroundColor = UIColor(red: 194/255, green: 31/255, blue: 31/255, alpha: 1)
+//            return view
+//        }()
+//        window?.addSubview(statusBarBackgroundView)
+//        window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
+//        window?.addConstraintsWithFormat(format: "V:|[v0(40)]", views: statusBarBackgroundView)
         return true
     }
-
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

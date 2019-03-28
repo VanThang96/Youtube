@@ -1,41 +1,13 @@
 //
-//  ViewController.swift
+//  VideoCell.swift
 //  Youtube
 //
-//  Created by win on 3/27/19.
+//  Created by win on 3/28/19.
 //  Copyright © 2019 win. All rights reserved.
 //
 
 import UIKit
 
-class HomeController: UICollectionViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-       
-        navigationItem.title = "Youtube"
-        collectionView.backgroundColor = .white
-        
-        collectionView.register(VideoCell.self, forCellWithReuseIdentifier: "cellId")
-    }
-}
-extension HomeController : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 300)
-    }
-}
-extension HomeController {
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
-    }
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-}
 class VideoCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -43,34 +15,43 @@ class VideoCell : UICollectionViewCell {
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-          setupViews()
+        setupViews()
     }
     
     let thumbnailImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "thumbnail")
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     let userProfileImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .green
+        imageView.image = UIImage(named: "profile")
+        imageView.layer.cornerRadius = 22
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     let titleLabel : UILabel = {
         let label = UILabel()
-        label.backgroundColor = .blue
+        label.text = "Avengers: Endgame - Official Trailer"
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    let subTitleLabel : UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .yellow
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    let subTitleLabel : UITextView = {
+        let textview = UITextView()
+        textview.text = "Marvel Entertaiment • 79 milion views • 1 month ago "
+        textview.textContainerInset = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)
+        textview.textColor = .lightGray
+        textview.isEditable = false
+        textview.translatesAutoresizingMaskIntoConstraints = false
+        return textview
     }()
     let separatorView : UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         return view
     }()
     func setupViews(){
@@ -94,22 +75,10 @@ class VideoCell : UICollectionViewCell {
         addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 20))
         
         // constrains of subLabelTitle
-        addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: 8))
+        addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: 4))
         addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .leading, relatedBy: .equal, toItem: userProfileImageView, attribute: .trailing, multiplier: 1, constant: 8))
         addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .trailing, relatedBy: .equal, toItem: thumbnailImageView, attribute: .trailing, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 20))
+        addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 30))
         
-    }
-}
-extension UIView {
-    func addConstraintsWithFormat(format : String, views: UIView...){
-        var viewDictionary = [String : UIView]()
-        for (index,view) in views.enumerated() {
-            let key = "v\(index)"
-            view.translatesAutoresizingMaskIntoConstraints = false
-            viewDictionary[key] = view
-        }
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options:  NSLayoutConstraint.FormatOptions.init(rawValue: 0), metrics: nil, views: viewDictionary))
-       
     }
 }
