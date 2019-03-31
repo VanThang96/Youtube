@@ -27,8 +27,7 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
         
         let selectIndexPath = IndexPath(item: 0, section: 0)
-        collectionView.selectItem(at: selectIndexPath, animated: false, scrollPosition: .bottom)
-       
+        collectionView.selectItem(at: selectIndexPath, animated: false, scrollPosition: .init(rawValue: 0))
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
