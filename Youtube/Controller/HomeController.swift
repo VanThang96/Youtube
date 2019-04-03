@@ -7,21 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class HomeController: UICollectionViewController {
+    let disposeBag = DisposeBag()
+    var videos: Variable<[Video]> = Variable([])
     
-    let videos : [Video] = {
-        var marvelChannel = Channel()
-        marvelChannel.name = "Marvel Entertaiment"
-        marvelChannel.profileImageName = "profile"
-        
-        var endgameTrailer = Video()
-        endgameTrailer.thumnailImage = "endgame1"
-        endgameTrailer.title = "Marvel Studio Avengers: Endgame - Official Trailer"
-        endgameTrailer.numberOfViews = 23000000
-        endgameTrailer.channel = marvelChannel
-        return [endgameTrailer]
-    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,13 +22,28 @@ class HomeController: UICollectionViewController {
         
         collectionView.backgroundColor = .white
         collectionView.register(VideoCell.self, forCellWithReuseIdentifier: "cellId")
-        
         collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        
+        let selectedIndexPath = IndexPath(item: 1, section: 0)
+        self.collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .init(rawValue: 0))
         
         setupLogoApp()
         setupMenuBar()
         setupNavBarButtons()
+        callApi()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        let selectedIndexPath = IndexPath(item: 0, section: 0)
+        self.collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .init(rawValue: 0))
+    }
+    func callApi(){
+        GetData.getVideoList()
+            .subscribe(onNext: { (result) in
+            self.videos.value = result
+            self.collectionView.reloadData()
+        })
+        .disposed(by: disposeBag)
     }
     let menuBar : MenuBar = {
         let mb = MenuBar()
@@ -85,17 +92,16 @@ extension HomeController : UICollectionViewDelegateFlowLayout {
 }
 extension HomeController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos.value.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as? VideoCell
-        cell!.video = videos[indexPath.item]
+        cell!.video = videos.value[indexPath.item]
         return cell!
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
 }
 
 

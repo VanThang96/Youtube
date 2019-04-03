@@ -8,16 +8,18 @@
 
 import UIKit
 
+
 class VideoCell : BaseCell {
     var video : Video?{
         didSet{
-            thumbnailImageView.image = UIImage(named: (video?.thumnailImage)!)
+            setupThumbnailImage()
+            setupProfileImage()
             titleLabel.text = video?.title
-            userProfileImageView.image = UIImage(named: (video?.channel?.profileImageName)!)
-            if let channelName = video?.channel?.name, let numberOfViews = video?.numberOfViews  {
+            if let channelName = video?.channel[0].name, let numberOfViews = video?.number_of_views  {
+                let number = NSNumber(value: numberOfViews)
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .decimal
-                subTitleLabel.text = "\(channelName) •  \(numberFormatter.string(from: numberOfViews)!) • 2 year ago"
+                subTitleLabel.text = "\(channelName) •  \(numberFormatter.string(from: number)!) • 2 year ago"
             }
         }
     }
@@ -33,6 +35,7 @@ class VideoCell : BaseCell {
         imageView.backgroundColor = .green
         imageView.image = UIImage(named: "profile")
         imageView.layer.cornerRadius = 22
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
     }()
@@ -83,5 +86,15 @@ class VideoCell : BaseCell {
         addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .trailing, relatedBy: .equal, toItem: thumbnailImageView, attribute: .trailing, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: subTitleLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 30))
         
+    }
+    private func setupThumbnailImage(){
+        if let thumbnailImageUrl = video?.thumbnail_image_name{
+            thumbnailImageView.loadImageUsingUrlString(url: thumbnailImageUrl)
+        }
+    }
+    private func setupProfileImage(){
+        if let profileImageUrl = video?.channel[0].profile_image_name{
+            userProfileImageView.loadImageUsingUrlString(url: profileImageUrl)
+        }
     }
 }

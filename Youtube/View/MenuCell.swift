@@ -45,5 +45,4 @@ class MenuCell: BaseCell {
             imageView.tintColor = isSelected ? UIColor(displayP3Red: 239/255, green: 68/255, blue: 48/255, alpha: 1): UIColor(displayP3Red: 99/255, green: 98/255, blue: 99/255, alpha: 1)
         }
     }
-    
 }
