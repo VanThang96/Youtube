@@ -80,8 +80,10 @@ class HomeController: UICollectionViewController {
     @objc func handleSearch(){
         print(123)
     }
+    let settingLaucher = SettingLaucher()
     @objc func handleMore(){
-        print(123)
+        //show menu
+       settingLaucher.showSetting()
     }
 }
 extension HomeController : UICollectionViewDelegateFlowLayout {
