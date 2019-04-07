@@ -17,16 +17,10 @@ class MenuCell: BaseCell {
         iv.tintColor = UIColor(displayP3Red: 99/255, green: 98/255, blue: 99/255, alpha: 1)
         return iv
     }()
-    var title : UILabel = {
-        let title = UILabel()
-        return title
-    }()
-    
     override func setupViews() {
         super.setupViews()
         
         addSubview(imageView)
-        addSubview(title)
         
         addConstraintsWithFormat(format: "H:[v0(28)]", views: imageView)
         addConstraintsWithFormat(format: "V:[v0(28)]", views: imageView)

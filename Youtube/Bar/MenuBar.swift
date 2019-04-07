@@ -26,11 +26,30 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
         addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
         
-        let selectIndexPath = IndexPath(item: 0, section: 0)
-        collectionView.selectItem(at: selectIndexPath, animated: false, scrollPosition: .init(rawValue: 0))
+        selectedfirstItem()
+        setupHorizontalBar()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        selectedfirstItem()
+    }
+    func selectedfirstItem() {
+        let selectIndexPath = IndexPath(item: 0, section: 0)
+        collectionView.selectItem(at: selectIndexPath, animated: false, scrollPosition: .init(rawValue: 0))
+    }
+    var horizontalBarleftAnchorConstraint : NSLayoutConstraint?
+    func setupHorizontalBar(){
+        let horizontalBarView = UIView()
+        horizontalBarView.backgroundColor = UIColor(displayP3Red: 239/255, green: 68/255, blue: 48/255, alpha: 1)
+        horizontalBarView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(horizontalBarView)
+        
+        horizontalBarleftAnchorConstraint = horizontalBarView.leftAnchor.constraint(equalTo: self.leftAnchor)
+        horizontalBarleftAnchorConstraint?.isActive = true
+        horizontalBarView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        horizontalBarView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/4).isActive = true
+        horizontalBarView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
@@ -48,5 +67,11 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-   
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let leftAnchor = CGFloat(indexPath.item ) * frame.width / 4
+        horizontalBarleftAnchorConstraint?.constant = leftAnchor
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: nil)
+    }
 }

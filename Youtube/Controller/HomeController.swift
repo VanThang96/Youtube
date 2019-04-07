@@ -25,18 +25,12 @@ class HomeController: UICollectionViewController {
         collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         
-        let selectedIndexPath = IndexPath(item: 1, section: 0)
-        self.collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .init(rawValue: 0))
-        
         setupLogoApp()
         setupMenuBar()
         setupNavBarButtons()
         callApi()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        let selectedIndexPath = IndexPath(item: 0, section: 0)
-        self.collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .init(rawValue: 0))
-    }
+   
     func callApi(){
         GetData.getVideoList()
             .subscribe(onNext: { (result) in
@@ -47,6 +41,7 @@ class HomeController: UICollectionViewController {
     }
     let menuBar : MenuBar = {
         let mb = MenuBar()
+        mb.selectedfirstItem()
         return mb
     }()
     private func setupLogoApp(){
@@ -64,6 +59,7 @@ class HomeController: UICollectionViewController {
         view.addSubview(menuBar)
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
         view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: menuBar)
+        
     }
     private func setupNavBarButtons(){
         let searchImage = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
@@ -80,10 +76,23 @@ class HomeController: UICollectionViewController {
     @objc func handleSearch(){
         print(123)
     }
-    let settingLaucher = SettingLaucher()
+    lazy var settingLaucher : SettingLaucher = {
+        var settingLaucher = SettingLaucher()
+        settingLaucher.homeViewController = self
+        return settingLaucher
+    }()
     @objc func handleMore(){
         //show menu
        settingLaucher.showSetting()
+    }
+    func showControllerForSetting(setting : Setting){
+        let settingViewController = UIViewController()
+        settingViewController.navigationItem.title = setting.name.rawValue
+        settingViewController.view.backgroundColor = .white
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(displayP3Red: 99/255, green: 98/255, blue: 99/255, alpha: 1)]
+        navigationController?.navigationBar.tintColor = UIColor(displayP3Red: 99/255, green: 98/255, blue: 99/255, alpha: 1)
+        navigationController?.pushViewController(settingViewController, animated: true)
     }
 }
 extension HomeController : UICollectionViewDelegateFlowLayout {
