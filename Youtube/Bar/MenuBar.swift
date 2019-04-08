@@ -17,10 +17,11 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
         cv.dataSource = self
         return cv
     }()
+    var homeController : HomeController?
     let cellId = "cellId"
     override init(frame: CGRect) {
         super.init(frame:frame)
-        
+        homeController = HomeController()
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
         addSubview(collectionView)
         addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
@@ -31,7 +32,7 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        homeController = HomeController()
         selectedfirstItem()
     }
     func selectedfirstItem() {
@@ -68,10 +69,6 @@ class MenuBar : UIView, UICollectionViewDelegateFlowLayout,UICollectionViewDeleg
         return 0
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let leftAnchor = CGFloat(indexPath.item ) * frame.width / 4
-        horizontalBarleftAnchorConstraint?.constant = leftAnchor
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.layoutIfNeeded()
-        }, completion: nil)
+        homeController?.scrollMenuIndex(menuIndex: indexPath.item)
     }
 }
