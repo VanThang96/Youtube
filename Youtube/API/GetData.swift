@@ -15,4 +15,14 @@ class GetData: BaseService {
             return data
         })
     }
+    static func getTrendingVideo() -> Observable<[Video]> {
+        return request(APIRouters.getTrendingVideos()).map({ data in
+            return data
+        })
+    }
+    static func getSubscriptionVideos() -> Observable<[Video]>{
+        return request(APIRouters.getSubscriptionVideos()).map({ data in
+            return data
+        })
+    }
 }

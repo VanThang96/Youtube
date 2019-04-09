@@ -11,6 +11,8 @@ import UIKit
 
 class HomeController: UICollectionViewController {
     let cellId = "cellId"
+    let trendingCellId = "trendingcellId"
+    let subscriptionCellId = "subscription"
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,9 +30,11 @@ class HomeController: UICollectionViewController {
         }
         collectionView.backgroundColor = .white
         collectionView.isPagingEnabled = true
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView.register(HomeCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(TrendingCell.self, forCellWithReuseIdentifier: trendingCellId)
+        collectionView.register(SubcriptionCell.self, forCellWithReuseIdentifier: subscriptionCellId)
     }
     
     lazy var menuBar : MenuBar = {
@@ -99,7 +103,15 @@ extension HomeController : UICollectionViewDelegateFlowLayout {
         return 4
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? FeedCell
+        var identifier = ""
+        if indexPath.item == 1{
+            identifier = trendingCellId
+        }else if indexPath.item == 2{
+            identifier = subscriptionCellId
+        }else{
+            identifier = cellId
+        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? HomeCell
         return cell!
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

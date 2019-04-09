@@ -13,6 +13,8 @@ enum APIRouters: URLRequestConvertible {
     
     //The endpoint name
     case getVideoList()
+    case getTrendingVideos()
+    case getSubscriptionVideos()
     
     //MARK: - URLRequestConvertible
     func asURLRequest() throws -> URLRequest {
@@ -36,12 +38,20 @@ enum APIRouters: URLRequestConvertible {
         switch self {
         case .getVideoList:
             return .get
+        case .getTrendingVideos:
+            return .get
+        case .getSubscriptionVideos :
+            return .get
         }
     }
     var path: String {
         switch self {
         case .getVideoList:
             return "youtubeassets/home.json"
+        case .getTrendingVideos:
+            return "youtubeassets/trending.json"
+        case .getSubscriptionVideos:
+            return "youtubeassets/subscriptions.json"
         }
     }
 }

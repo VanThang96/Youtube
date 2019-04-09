@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class FeedCell: BaseCell {
+class HomeCell: BaseCell {
     let disposeBag = DisposeBag()
     var videos: Variable<[Video]> = Variable([])
     let cellId = "cellId"
@@ -40,9 +40,10 @@ class FeedCell: BaseCell {
                 self.collectionView.reloadData()
             })
             .disposed(by: disposeBag)
+        
     }
 }
-extension FeedCell : UICollectionViewDelegateFlowLayout{
+extension HomeCell : UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -51,10 +52,10 @@ extension FeedCell : UICollectionViewDelegateFlowLayout{
         return CGSize(width: frame.width, height: height + 16 + 8 + 44 + 36)
     }
 }
-extension FeedCell : UICollectionViewDelegate  {
+extension HomeCell : UICollectionViewDelegate  {
     
 }
-extension FeedCell : UICollectionViewDataSource{
+extension HomeCell : UICollectionViewDataSource{
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return videos.value.count
     }

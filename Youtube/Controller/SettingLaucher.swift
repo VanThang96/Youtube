@@ -66,8 +66,8 @@ class SettingLaucher: NSObject {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {[weak self] in
                 self?.transparentView.alpha = 1
                 self?.collectionView.frame = CGRect(x: 0, y: y, width: window.frame.width, height: height)
-            }, completion: nil)
-    
+                }, completion: nil)
+            
         }
     }
     @objc func handleDismiss(){
