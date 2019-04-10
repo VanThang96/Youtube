@@ -53,7 +53,10 @@ extension HomeCell : UICollectionViewDelegateFlowLayout{
     }
 }
 extension HomeCell : UICollectionViewDelegate  {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let videoLaucher = VideoLaucher()
+        videoLaucher.showVideoPlayer()
+    }
 }
 extension HomeCell : UICollectionViewDataSource{
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
