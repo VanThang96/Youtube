@@ -31,9 +31,25 @@ class VideoPlayerView: UIView {
         view.backgroundColor = UIColor(white: 0, alpha: 1)
         return view
     }()
+    let videoLenghtLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.text = "00:00"
+        return label
+    }()
+    let videoSlider : UISlider = {
+        let slider = UISlider()
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = .red
+        slider.maximumTrackTintColor = .white
+        slider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        slider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
+        return slider
+    }()
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        backgroundColor = .black
+        //        backgroundColor = .black
         
         setupPlayerView()
         
@@ -48,6 +64,18 @@ class VideoPlayerView: UIView {
         pauseAndPlayButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         pauseAndPlayButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         pauseAndPlayButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        controlContainerView.addSubview(videoLenghtLabel)
+        videoLenghtLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8).isActive = true
+        videoLenghtLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoLenghtLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        videoLenghtLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        controlContainerView.addSubview(videoSlider)
+        videoSlider.trailingAnchor.constraint(equalTo: videoLenghtLabel.leadingAnchor,constant : -8).isActive = true
+        videoSlider.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoSlider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        videoSlider.heightAnchor.constraint(equalToConstant: 24).isActive = true
     }
     var isPlaying = false
     @objc func handlePause(){
@@ -59,6 +87,16 @@ class VideoPlayerView: UIView {
             pauseAndPlayButton.setImage(UIImage(named: "pause"), for: .normal)
         }
         isPlaying = !isPlaying
+    }
+    @objc func handleSliderChange(){
+        if let duration = player?.currentItem?.duration{
+            let totalSeconds = CMTimeGetSeconds(duration)
+            let value = Float64(videoSlider.value) * totalSeconds
+            let seekTime = CMTime(value: Int64(value), timescale: 1)
+            player?.seek(to: seekTime, completionHandler: { (completionSeek) in
+                
+            })
+        }
     }
     private func setupPlayerView(){
         let urlString = "https://firebasestorage.googleapis.com/v0/b/gameofchats-762ca.appspot.com/o/message_movies%2F12323439-9729-4941-BA07-2BAE970967C7.mov?alt=media&token=3e37a093-3bc8-410f-84d3-38332af9c726"
@@ -78,6 +116,14 @@ class VideoPlayerView: UIView {
             controlContainerView.backgroundColor = UIColor.clear
             pauseAndPlayButton.isHidden = false
             isPlaying = true
+            
+            if let duration = player?.currentItem?.duration {
+                let seconds = CMTimeGetSeconds(duration)
+                let secondText = Int(seconds) % 60
+                let minutesText = String(format: "%02d", Int(seconds) / 60)
+                
+                videoLenghtLabel.text = "\(minutesText):\(secondText)"
+            }
         }
     }
     required init?(coder aDecoder: NSCoder) {
