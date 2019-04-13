@@ -38,6 +38,13 @@ class VideoPlayerView: UIView {
         label.text = "00:00"
         return label
     }()
+    let videoCurrentLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.text = "00:00"
+        return label
+    }()
     let videoSlider : UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
@@ -71,10 +78,16 @@ class VideoPlayerView: UIView {
         videoLenghtLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         videoLenghtLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
+        controlContainerView.addSubview(videoCurrentLabel)
+        videoCurrentLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant : 8).isActive = true
+        videoCurrentLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        videoCurrentLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        videoCurrentLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
         controlContainerView.addSubview(videoSlider)
         videoSlider.trailingAnchor.constraint(equalTo: videoLenghtLabel.leadingAnchor,constant : -8).isActive = true
         videoSlider.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        videoSlider.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        videoSlider.leadingAnchor.constraint(equalTo: videoCurrentLabel.trailingAnchor).isActive = true
         videoSlider.heightAnchor.constraint(equalToConstant: 24).isActive = true
     }
     var isPlaying = false
@@ -108,6 +121,22 @@ class VideoPlayerView: UIView {
             
             player?.play()
             player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
+            
+            //track player progress
+            let interval = CMTime(value: 1, timescale: 2)
+            player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (time) in
+                let seconds = CMTimeGetSeconds(time)
+                let secondText = String(format: "%02d", Int(seconds) % 60)
+                let minuteText = String(format: "%02d", Int(seconds) / 60)
+                self.videoCurrentLabel.text = "\(minuteText):\(secondText)"
+                
+                //move the slider thumb
+                if let duration = self.player?.currentItem?.duration {
+                    let durationSeconds = CMTimeGetSeconds(duration)
+                    
+                    self.videoSlider.value = Float(seconds / durationSeconds)
+                }
+            })
         }
     }
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
